@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\TestController;
+use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ProductController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,3 +21,6 @@ Route::get('/', function () {
 
 Route::resource('user', UserController::class);
 
+Route::get('category/create', [ProductCategoryController::class, 'create']);
+
+Route::get('product/create', [ProductController::class, 'create']);

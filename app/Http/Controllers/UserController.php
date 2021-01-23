@@ -36,9 +36,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        
-        
-        
         $validated = $request->validate([
             'name' => 'required',
             'gender' => 'required',
@@ -47,7 +44,12 @@ class UserController extends Controller
             'address' => 'required',
             'nationality' => 'required',
             'dob' => 'required | date',
+            'image' => 'required',
 
+        ],[
+            'name.required' => 'Name can not be blank',
+            'gender.required'   => 'Please Select the gender',
+            'email.email'   => 'Email must be valid'
         ]);
 
         $file = $request->file('image');
@@ -65,8 +67,15 @@ class UserController extends Controller
         $user->education = $request->education;
         $user->image = $fileName;
         $user->contact_mode = $request->contact_mode;
-        $user->save();
+        
+        $saved = $user->save();
+        
+        if ($saved) {
+            session()->flash('successMsg','User registered successfully');
+            return redirect('user');
+        }
 
+        
 
     }
 
@@ -89,7 +98,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        return view('user.edit',compact('user'));
     }
 
     /**
@@ -101,7 +111,46 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required',
+            'gender' => 'required',
+            'phone' => 'required',
+            'email' => 'email',
+            'address' => 'required',
+            'nationality' => 'required',
+            'dob' => 'required | date',
+            'image' => 'required',
+
+        ],[
+            'name.required' => 'Name can not be blank',
+            'gender.required'   => 'Please Select the gender',
+            'email.email'   => 'Email must be valid'
+        ]);
+
+
+        $user = User::find($id);
+
+        $file = $request->file('image');
+        $fileName = $file->getClientOriginalName();
+        $file->move('upload/',$fileName);
+
+        $user->name = $request->name;
+        $user->gender = $request->gender;
+        $user->phone = $request->phone;
+        $user->email = $request->email;
+        $user->address = $request->address;
+        $user->nationality = $request->nationality;
+        $user->dob = $request->dob;
+        $user->education = $request->education;
+        $user->image = $fileName;
+        $user->contact_mode = $request->contact_mode;
+        
+        $saved = $user->save();
+        
+        if ($saved) {
+            session()->flash('successMsg','User updated successfully');
+            return redirect('user');
+        }
     }
 
     /**
@@ -112,6 +161,13 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        
+        $deleted = $user->delete();
+
+        if ($deleted) {
+            session()->flash('successMsg','User deleted successfully');
+            return redirect('user');
+        }
     }
 }

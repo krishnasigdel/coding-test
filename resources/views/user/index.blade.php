@@ -1,7 +1,15 @@
 @extends('master')
 
-<body>
-    <h3>Users List</h3>
+
+@section('body')
+    
+  <div>
+
+    <div>
+      <a href="{{ url('category/create') }}" class="btn btn-primary">Add Product Category</a><br>
+      <a href="{{ url('product/create') }}" class="btn btn-primary">Add Product</a>
+      <h3>Users List </h3>
+    </div>
     <table class="table table-striped">
         <thead>
           <tr>
@@ -15,6 +23,7 @@
             <th>Education</th>
             <th>Image</th>
             <th>Contact Mode</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -31,9 +40,20 @@
                 <td>{{ $user->education }}</td>
                 <td><img src="{{url('upload/'.$user->image)}}" alt="User" height="50" width="50"></td>
                 <td>{{ $user->contact_mode }}</td>
+                <td>
+                  <a href="{{ url('user/'.$user->id.'/edit') }}" class="btn btn-info">Edit</a>
+                  <form action="/user/{{$user->id}}" class="pull-right" method="post" >
+                    {{ csrf_field() }}
+                    {{ method_field('DELETE') }}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                </td>
             </tr>
             @endforeach
 
         </tbody>
       </table>
-</body>
+
+  </div>
+
+@endsection
