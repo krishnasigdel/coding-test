@@ -7,6 +7,14 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+
+
+    public function __construct()
+    {
+        $this->middleware('customAuth')->except('store');
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,8 +22,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('id','desc')->get();
-        return view('user.index',compact('users'));
+        $users = User::orderBy('id', 'desc')->get();
+        return view('user.index', compact('users'));
     }
 
     /**
@@ -41,12 +49,13 @@ class UserController extends Controller
             'gender' => 'required',
             'phone' => 'required',
             'email' => 'email',
+            'password' => 'required',
             'address' => 'required',
             'nationality' => 'required',
             'dob' => 'required | date',
             'image' => 'required',
 
-        ],[
+        ], [
             'name.required' => 'Name can not be blank',
             'gender.required'   => 'Please Select the gender',
             'email.email'   => 'Email must be valid'
@@ -54,29 +63,27 @@ class UserController extends Controller
 
         $file = $request->file('image');
         $fileName = $file->getClientOriginalName();
-        $file->move('upload/',$fileName);
+        $file->move('upload/', $fileName);
 
         $user = new User;
         $user->name = $request->name;
         $user->gender = $request->gender;
         $user->phone = $request->phone;
         $user->email = $request->email;
+        $user->password = bcrypt($request->password);
         $user->address = $request->address;
         $user->nationality = $request->nationality;
         $user->dob = $request->dob;
         $user->education = $request->education;
         $user->image = $fileName;
         $user->contact_mode = $request->contact_mode;
-        
+
         $saved = $user->save();
-        
+
         if ($saved) {
-            session()->flash('successMsg','User registered successfully');
+            session()->flash('successMsg', 'User registered successfully');
             return redirect('user');
         }
-
-        
-
     }
 
     /**
@@ -99,7 +106,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        return view('user.edit',compact('user'));
+        return view('user.edit', compact('user'));
     }
 
     /**
@@ -121,7 +128,7 @@ class UserController extends Controller
             'dob' => 'required | date',
             'image' => 'required',
 
-        ],[
+        ], [
             'name.required' => 'Name can not be blank',
             'gender.required'   => 'Please Select the gender',
             'email.email'   => 'Email must be valid'
@@ -132,7 +139,7 @@ class UserController extends Controller
 
         $file = $request->file('image');
         $fileName = $file->getClientOriginalName();
-        $file->move('upload/',$fileName);
+        $file->move('upload/', $fileName);
 
         $user->name = $request->name;
         $user->gender = $request->gender;
@@ -144,11 +151,11 @@ class UserController extends Controller
         $user->education = $request->education;
         $user->image = $fileName;
         $user->contact_mode = $request->contact_mode;
-        
+
         $saved = $user->save();
-        
+
         if ($saved) {
-            session()->flash('successMsg','User updated successfully');
+            session()->flash('successMsg', 'User updated successfully');
             return redirect('user');
         }
     }
@@ -162,11 +169,11 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::find($id);
-        
+
         $deleted = $user->delete();
 
         if ($deleted) {
-            session()->flash('successMsg','User deleted successfully');
+            session()->flash('successMsg', 'User deleted successfully');
             return redirect('user');
         }
     }

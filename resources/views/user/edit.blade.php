@@ -1,8 +1,8 @@
 @extends('master')
 
 
+@section('body')
 
-<body>
     <form class="form-horizontal" action="{{ url('user/'.$user->id) }}" enctype="multipart/form-data" method="POST">
         {{ csrf_field() }}
         {{ method_field('PUT') }}
@@ -15,12 +15,12 @@
 
         <div class="form-group">
             <label class="control-label col-sm-2" for="gender">Gender:</label>
-            <div class="col-sm-10"> 
-             
+            <div class="col-sm-10">
+
                 <label class="control-label radio-inline"><input type="radio" name="gender" value="male" @php echo $user->gender == "male" ? "checked": ""; @endphp>Male</label>
                 <label class="control-label radio-inline"><input type="radio" name="gender" value="female" @php echo $user->gender == "female" ? "checked": ""; @endphp>Female</label>
                 <label class="control-label radio-inline"><input type="radio" name="gender" value="others" @php echo $user->gender == "others" ? "checked": ""; @endphp>Others</label>
-        
+
             </div>
             </div>
 
@@ -79,7 +79,7 @@
               <input type="file" class="form-control" name="image" value="{{url('upload/'.$user->image)}}" id="image">
             </div>
         </div>
-        
+
         <div class="form-group">
             <label class="control-label col-sm-2" for="contact_mode">Preferred Mode of Contact:</label>
             <div class="col-sm-10">
@@ -97,5 +97,5 @@
             <button type="submit" class="btn btn-default">Update</button>
           </div>
         </div>
-      </form>
-</body>
+    </form>
+@endsection

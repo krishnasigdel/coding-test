@@ -14,6 +14,14 @@
 </head>
 <body>
     <div class="container">
+        @if (Session::has('loggedInUser'))
+        <div class="alert alert-info">
+            <p>Welcome {{Session::get('loggedInUser')->name}}</p>
+            <p><a href="{{route('user.logout')}}" class="btn btn-danger">Log Out</a></p>
+        </div>
+        @endif
+    </div>
+    <div class="container">
         <div class="row">
             @if ($errors->any())
                 <div class="alert alert-danger">

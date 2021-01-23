@@ -7,12 +7,13 @@
 
     <div>
 
-        <form class="form-horizontal" action="/product" enctype="multipart/form-data" method="POST">
+        <form class="form-horizontal" action="{{ url('product/'.$product->id) }}" enctype="multipart/form-data" method="POST">
             {{ csrf_field() }}
+            {{ method_field('PUT') }}
             <div class="form-group">
                 <label class="control-label col-sm-2" for="name">Name:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter Name">
+                    <input type="text" class="form-control" name="name" value="{{$product->name}}" id="name" placeholder="Enter Name">
                 </div>
             </div>
 
@@ -31,14 +32,14 @@
             <div class="form-group">
                 <label class="control-label col-sm-2" for="slug">Slug:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="slug" id="slug" placeholder="Enter Slug">
+                    <input type="text" class="form-control" name="slug" value="{{$product->slug}}" id="slug" placeholder="Enter Slug">
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="description">Description:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="description" id="description"
+                    <input type="text" class="form-control" name="description" value="{{$product->description}}" id="description"
                         placeholder="Enter Description">
                 </div>
             </div>
@@ -50,26 +51,24 @@
                 </div>
             </div>
 
-
-
             <div class="form-group">
                 <label class="control-label col-sm-2" for="price">Price:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="price" id="price" placeholder="Enter Price">
+                    <input type="text" class="form-control" name="price" value="{{$product->price}}" id="price" placeholder="Enter Price">
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="discount">Discount:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="discount" id="discount" placeholder="Enter Discount">
+                    <input type="text" class="form-control" name="discount" value="{{$product->discount}}" id="discount" placeholder="Enter Discount">
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="stock_quantity">Stock Quantity:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="stock_quantity" id="stock_quantity"
+                    <input type="text" class="form-control" name="stock_quantity" value="{{$product->stock_quantity}}" id="stock_quantity"
                         placeholder="Enter Stock Quantity">
                 </div>
             </div>
@@ -78,8 +77,8 @@
                 <label class="control-label col-sm-2" for="status">Status:</label>
                 <div class="col-sm-10">
                     <select class="form-control" id="status" name="status">
-                        <option>active</option>
-                        <option>inactive</option>
+                        <option value="active" @php echo $product->status == "active" ? "selected": ""; @endphp>active</option>
+                        <option value="inactive" @php echo $product->status == "inactive" ? "selected": ""; @endphp>inactive</option>
                     </select>
                 </div>
             </div>
