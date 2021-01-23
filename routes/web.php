@@ -21,6 +21,13 @@ Route::get('/', function () {
 
 Route::resource('user', UserController::class);
 
+
+Route::get('category', [ProductCategoryController::class, 'index']);
 Route::get('category/create', [ProductCategoryController::class, 'create']);
+Route::post('category', [ProductCategoryController::class, 'store']);
+Route::get('category/{category}/edit', [ProductCategoryController::class, 'edit']);
+Route::put('category/{category}', [ProductCategoryController::class, 'update']);
+Route::delete('category/{category}', [ProductCategoryController::class, 'destroy']);
+
 
 Route::get('product/create', [ProductController::class, 'create']);
